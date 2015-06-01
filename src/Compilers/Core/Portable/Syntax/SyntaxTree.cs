@@ -332,6 +332,17 @@ namespace Microsoft.CodeAnalysis
             return ValueTuple.Create(_lazyChecksum, guid);
         }
 
+		/// <summary>
+		/// Force the checksum to be a specific value.  Used by compiler plugins to set the checksum of the modified
+		/// SyntaxTrees.
+		/// </summary>
+        internal void ForceChecksum(ImmutableArray<byte> checksum)
+        {
+            var text = this.GetText();
+            _lazyChecksum = checksum;
+            _lazyHashAlgorithm = text.ChecksumAlgorithm;
+        }
+
         /// <summary>
         /// Returns a new tree whose root and options are as specified and other properties are copied from the current tree.
         /// </summary>

@@ -732,6 +732,20 @@ Microsoft.CodeAnalysis.Platform.Arm = 5 -> Microsoft.CodeAnalysis.Platform
 Microsoft.CodeAnalysis.Platform.Itanium = 3 -> Microsoft.CodeAnalysis.Platform
 Microsoft.CodeAnalysis.Platform.X64 = 2 -> Microsoft.CodeAnalysis.Platform
 Microsoft.CodeAnalysis.Platform.X86 = 1 -> Microsoft.CodeAnalysis.Platform
+Microsoft.CodeAnalysis.Plugins.AfterCompileContext
+Microsoft.CodeAnalysis.Plugins.AfterCompileContext.AssemblyStream.get -> System.IO.Stream
+Microsoft.CodeAnalysis.Plugins.AfterCompileContext.Compilation.get -> Microsoft.CodeAnalysis.Compilation
+Microsoft.CodeAnalysis.Plugins.AfterCompileContext.Diagnostics.get -> System.Collections.Generic.IList<Microsoft.CodeAnalysis.Diagnostic>
+Microsoft.CodeAnalysis.Plugins.AfterCompileContext.SymbolStream.get -> System.IO.Stream
+Microsoft.CodeAnalysis.Plugins.BeforeCompileContext
+Microsoft.CodeAnalysis.Plugins.BeforeCompileContext.Compilation.get -> Microsoft.CodeAnalysis.Compilation
+Microsoft.CodeAnalysis.Plugins.BeforeCompileContext.Compilation.set -> void
+Microsoft.CodeAnalysis.Plugins.BeforeCompileContext.Diagnostics.get -> System.Collections.Generic.IList<Microsoft.CodeAnalysis.Diagnostic>
+Microsoft.CodeAnalysis.Plugins.ICompilerPlugin
+Microsoft.CodeAnalysis.Plugins.ICompilerPlugin.AfterCompile(Microsoft.CodeAnalysis.Plugins.AfterCompileContext context) -> void
+Microsoft.CodeAnalysis.Plugins.ICompilerPlugin.BeforeCompile(Microsoft.CodeAnalysis.Plugins.BeforeCompileContext context) -> void
+Microsoft.CodeAnalysis.Plugins.ICompilerPluginAttribute
+Microsoft.CodeAnalysis.Plugins.ICompilerPluginAttribute.Create() -> Microsoft.CodeAnalysis.Plugins.ICompilerPlugin
 Microsoft.CodeAnalysis.PortableExecutableReference
 Microsoft.CodeAnalysis.PortableExecutableReference.FilePath.get -> string
 Microsoft.CodeAnalysis.PortableExecutableReference.PortableExecutableReference(Microsoft.CodeAnalysis.MetadataReferenceProperties properties, string fullPath = null, Microsoft.CodeAnalysis.DocumentationProvider initialDocumentation = null) -> void

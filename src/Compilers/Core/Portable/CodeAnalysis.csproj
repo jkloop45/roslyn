@@ -139,6 +139,11 @@
     <Compile Include="Compilation\CommonSyntaxAndDeclarationManager.cs" />
     <Compile Include="Compilation\SymbolFilter.cs" />
     <Compile Include="CompilerPathUtilities.cs" />
+    <Compile Include="Plugins\AfterCompileContext.cs" />
+    <Compile Include="Plugins\BeforeCompileContext.cs" />
+    <Compile Include="Plugins\ICompilerPluginAttribute.cs" />
+    <Compile Include="Plugins\ICompilerPlugin.cs" />
+    <Compile Include="Plugins\CompilerPluginExecutor.cs" />
     <Compile Include="DiagnosticAnalyzer\AnalysisResult.cs" />
     <Compile Include="DiagnosticAnalyzer\AnalysisScope.cs" />
     <Compile Include="DiagnosticAnalyzer\AnalysisState.AnalyzerStateData.cs" />

@@ -13,6 +13,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.Text;
+using Microsoft.CodeAnalysis.Plugins;
 using Roslyn.Utilities;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -347,21 +348,31 @@ namespace Microsoft.CodeAnalysis
                 return Failed;
             }
 
+            var pluginExecutor = new CompilerPluginExecutor(AnalyzerLoader);
             var diagnostics = new List<DiagnosticInfo>();
-            var analyzers = ResolveAnalyzersFromArguments(diagnostics, MessageProvider, touchedFilesLogger);
-            var additionalTextFiles = ResolveAdditionalFilesFromArguments(diagnostics, MessageProvider, touchedFilesLogger);
-            if (ReportErrors(diagnostics, consoleOutput, errorLogger))
-            {
-                return Failed;
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
+            var analyzers = ImmutableArray<DiagnosticAnalyzer>.Empty;
             CancellationTokenSource analyzerCts = null;
             AnalyzerManager analyzerManager = null;
             AnalyzerDriver analyzerDriver = null;
             try
             {
+                pluginExecutor.ExecuteBeforeCompile(compilation);
+                if (ReportErrors(pluginExecutor.Diagnostics, consoleOutput, errorLogger))
+                {
+                    return Failed;
+                }
+
+                compilation = pluginExecutor.Compilation;
+                
+                analyzers = ResolveAnalyzersFromArguments(diagnostics, MessageProvider, touchedFilesLogger);
+                var additionalTextFiles = ResolveAdditionalFilesFromArguments(diagnostics, MessageProvider, touchedFilesLogger);
+                if (ReportErrors(diagnostics, consoleOutput, errorLogger))
+                {
+                    return Failed;
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+
                 Func<ImmutableArray<Diagnostic>> getAnalyzerDiagnostics = null;
                 ConcurrentSet<Diagnostic> analyzerExceptionDiagnostics = null;
                 if (!analyzers.IsDefaultOrEmpty)
@@ -462,6 +473,8 @@ namespace Microsoft.CodeAnalysis
 
                             touchedFilesLogger.AddWritten(finalPeFilePath);
                         }
+
+						pluginExecutor.ExecuteAfterCompile(compilation, peStreamProvider.Stream, pdbStreamProviderOpt.Stream);
                     }
                 }
 
@@ -472,7 +485,12 @@ namespace Microsoft.CodeAnalysis
                     return Failed;
                 }
 
-                cancellationToken.ThrowIfCancellationRequested();
+				if (ReportErrors(pluginExecutor.Diagnostics, consoleOutput, errorLogger))
+				{
+					return Failed;
+				}
+
+				cancellationToken.ThrowIfCancellationRequested();
 
                 if (analyzerExceptionDiagnostics != null && ReportErrors(analyzerExceptionDiagnostics, consoleOutput, errorLogger))
                 {
@@ -548,6 +566,8 @@ namespace Microsoft.CodeAnalysis
                         ReportAnalyzerExecutionTime(consoleOutput, analyzerDriver, Culture, compilation.Options.ConcurrentBuild);
                     }
                 }
+
+				pluginExecutor.Dispose();
             }
 
             return Succeeded;
