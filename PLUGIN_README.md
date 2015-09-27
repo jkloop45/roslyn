@@ -26,7 +26,7 @@ My project MacroSharp is the best resource for understanding compiler plugins ri
 - Be sure you have VS2015 installed (Community is ok)
 - Clone this repository
 - Install the nuget dependencies by opening a command prompt in this folder and typing: `nuget.exe restore Roslyn.sln`
-- Open src/Roslyn.sln in VS2015 RC and build
+- Open src/Roslyn.sln in VS2015 and build
 
 ### Create a plugin project:
 - Create a plugin project (class library) with references to Microsoft.CodeAnalysis.dll (built from this repository)
