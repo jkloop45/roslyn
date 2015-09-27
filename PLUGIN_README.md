@@ -36,8 +36,8 @@ My project MacroSharp is the best resource for understanding compiler plugins ri
 ### Create a project to use the plugin
 - Create a project to use the plugin project (console, class library, whatever)
 - Add a reference to the plugin project
-- Modify the project .csproj file by adding <CscToolPath>*ROSLYN PATH*\Binaries\Debug or Release</CscToolPath> to the first <PropertyGroup>. Example: <CscToolPath>D:\roslyn\Binaries\Debug</CscToolPath>
-- In any .cs file (only once per assembly though), add an assembly attribute for your compiler plugin attribute you created.  Example: If you created MyPlugins.MyCompilerPluginAttribute, you would have an attribute [assembly:MyPlugins.MyCompilerPlugin]
+- Modify the project .csproj file by adding `<CscToolPath>*ROSLYN PATH*\Binaries\Debug or Release</CscToolPath>` and `<CscToolExe>csc2.exe</CscToolExe>` to the first `<PropertyGroup>`.  Example: `<CscToolPath>D:\roslyn\Binaries\Debug</CscToolPath>` `<CscToolExe>csc2.exe</CscToolExe>` 
+- In any .cs file (only once per assembly though), add an assembly attribute for your compiler plugin attribute you created.  Example: If you created MyPlugins.MyCompilerPluginAttribute, you would have an attribute `[assembly:MyPlugins.MyCompilerPlugin]`
 
 ### Build/run your project
 - Note that Visual Studio won't use your plugin for autocomplete, and may show errors where there are none.  To see compiler errors, switch to the Output window.
