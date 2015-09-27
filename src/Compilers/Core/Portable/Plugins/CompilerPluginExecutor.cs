@@ -146,7 +146,7 @@ namespace Microsoft.CodeAnalysis.Plugins
             if (pluginBaseClass == null)
             {
                 var currentAssembly = typeof(CompilerPluginExecutor).GetTypeInfo().Assembly;
-                var mdRef = MetadataReference.CreateFromAssembly(currentAssembly);
+                var mdRef = MetadataReference.CreateFromAssemblyInternal(currentAssembly);
                 compilationWithRoslynRef = Compilation.AddReferences(mdRef);
                 pluginBaseClass = compilationWithRoslynRef.GetTypeByMetadataName(ICompilerPluginAttributeName);
             }

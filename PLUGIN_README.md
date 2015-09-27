@@ -23,10 +23,10 @@ Everything is currently integrated into VS by specifying a `CscToolPath` in the 
 My project MacroSharp is the best resource for understanding compiler plugins right now: https://github.com/russpowers/MacroSharp
 
 ### Build this fork of Roslyn
-- Be sure you have VS2015 RC installed
+- Be sure you have VS2015 installed (Community is ok)
 - Clone this repository
-- Install the nuget dependencies by opening a command prompt in this folder and typing: `Src\.nuget\nuget restore Src\Roslyn.sln`
-- Open src/RoslynLight.sln in VS2015 RC and build
+- Install the nuget dependencies by opening a command prompt in this folder and typing: `nuget.exe restore Roslyn.sln`
+- Open src/Roslyn.sln in VS2015 RC and build
 
 ### Create a plugin project:
 - Create a plugin project (class library) with references to Microsoft.CodeAnalysis.dll (built from this repository)
@@ -37,7 +37,7 @@ My project MacroSharp is the best resource for understanding compiler plugins ri
 - Create a project to use the plugin project (console, class library, whatever)
 - Add a reference to the plugin project
 - Modify the project .csproj file by adding <CscToolPath>*ROSLYN PATH*\Binaries\Debug or Release</CscToolPath> to the first <PropertyGroup>. Example: <CscToolPath>D:\roslyn\Binaries\Debug</CscToolPath>
-- In any .cs file (only once though), add an assembly attribute for your compiler plugin attribute you created.  Example: If you created MyPlugins.MyCompilerPluginAttribute, you would have an attribute [assembly:MyPlugins.MyCompilerPlugin]
+- In any .cs file (only once per assembly though), add an assembly attribute for your compiler plugin attribute you created.  Example: If you created MyPlugins.MyCompilerPluginAttribute, you would have an attribute [assembly:MyPlugins.MyCompilerPlugin]
 
 ### Build/run your project
 - Note that Visual Studio won't use your plugin for autocomplete, and may show errors where there are none.  To see compiler errors, switch to the Output window.
